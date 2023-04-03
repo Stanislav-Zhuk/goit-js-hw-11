@@ -8,7 +8,7 @@ export class PixabayAPI {
   query = null;
   per_page = 40;
 
-  async searchImages() {
+  async searchPhotos() {
     const data = await axios.get(`${this.#BASE_URL}`, {
       params: {
         key: this.#API_KEY,

@@ -35,7 +35,33 @@ async function onSearchFormSubmit(event) {
   event.preventDefault();
   galleryListEl.innerHTML = '';
 
-  const searchQuery = event.currentTarget.elements.searchQuery.value.trim();
-  pixabayAPI.query = searchQuery;
+  pixabayAPI.query = event.currentTarget.elements.searchQuery.value.trim();
+  
+  if (pixabayAPI.query === '') {
+    Notify.warning('Please enter at least a few characters to search');
+    return;
+  }
 
+  try {
+    const photos = await pixabayAPI.searchPhotos().then(response => {
+      const items = response.data.hits;
+      const totalItems = response.data.totalHits;
+
+      if (items.length === 0) {
+        return Notify.failure(
+          'Sorry, there are no images matching your search query. Please try again.'
+        );
+      }
+      Notify.success(`Hooray! We found ${totalItems} images.`);
+      const markup = renderGallery(items);
+      if (markup !== undefined) {
+        galleryListEl.innerHTML = markup;
+        lightbox.on('show.simplelightbox');
+        lightbox.refresh();
+        loadMoreBtnEl.classList.remove('is-hidden');
+      }
+    });
+  } catch {
+    error => console.error(error);
+  }
 }

@@ -7,41 +7,35 @@ import { PixabayAPI } from './js/pixabay-api';
 
 // params library notiflix
 Notify.init({
-  borderRadius: '10px',
   timeout: 4000,
   clickToClose: true,
   cssAnimationStyle: 'zoom',
 });
 
 // use library SimpleLightbox
-const SLBparams = {
+const lightbox = new SimpleLightbox('.gallery a', {
+  captions: true,
   captionsData: 'alt',
   captionDelay: 250,
-};
-
-const lightbox = new SimpleLightbox('.gallery a', SLBparams);
+});
 
 // declaration of variables and elements of DOM
 const pixabayAPI = new PixabayAPI();
 
-const galleryEl = document.querySelector('.gallery');
+const galleryListEl = document.querySelector('.gallery');
 const formSearchEl = document.querySelector('.search-form');
-const loadMoreBtn = document.querySelector('.load-more');
+const loadMoreBtnEl = document.querySelector('.load-more');
 
 // add event listener
 formSearchEl.addEventListener('submit', onSearchFormSubmit);
 // loadMoreBtn.addEventListener('click', onLoadMoreBtnClick);
 
 // function to perform a search
-function onSearchFormSubmit(event) {
+async function onSearchFormSubmit(event) {
   event.preventDefault();
+  galleryListEl.innerHTML = '';
 
-  galleryEl.innerHTML = '';
-  pixabayAPI.query = event.currentTarget.elements.searchQuery.value.trim();
-  pixabayAPI.resetPage();
+  const searchQuery = event.currentTarget.elements.searchQuery.value.trim();
+  pixabayAPI.query = searchQuery;
 
-  if (pixabayAPI.query === '') {
-    Notify.warning('Please enter at least a few characters to search');
-    return;
-  }
 }

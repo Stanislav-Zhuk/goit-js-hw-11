@@ -24,6 +24,24 @@ const lightbox = new SimpleLightbox('.gallery a', SLBparams);
 // declaration of variables and elements of DOM
 const pixabayApi = new PixabayApi();
 
-const gallery = document.querySelector('.gallery');
-const form = document.querySelector('.search-form');
+const galleryEl = document.querySelector('.gallery');
+const formSearchEl = document.querySelector('.search-form');
 const loadMoreBtn = document.querySelector('.load-more');
+
+// add event listener
+formSearchEl.addEventListener('submit', onSearch);
+// loadMoreBtn.addEventListener('click', onLoadMore);
+
+// function to perform a search
+function onSearch(event) {
+  event.preventDefault();
+
+  galleryEl.innerHTML = '';
+  pixabayApi.query = event.currentTarget.elements.searchQuery.value.trim();
+  pixabayApi.resetPage();
+
+  if (pixabayApi.query === '') {
+    Notify.warning('Please enter at least a few characters to search');
+    return;
+  }
+}

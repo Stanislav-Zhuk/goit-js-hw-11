@@ -1,6 +1,6 @@
 // function of markup gallery
-export function renderGallery(imageList) {
-  return imageList.map(({ webformatURL, largeImageURL, tags, likes, views, comments, downloads, }) => `
+export function renderGallery(element) {
+  return element.map(({ webformatURL, largeImageURL, tags, likes, views, comments, downloads, }) => `
     <div class="photo-card">
       <a href="${largeImageURL}">
         <img class="photo-img" src="${webformatURL}" alt="${tags}" loading="lazy" />

@@ -13,11 +13,7 @@ Notify.init({
 });
 
 // use library SimpleLightbox
-const lightbox = new SimpleLightbox('.gallery a', {
-  captions: true,
-  captionsData: 'alt',
-  captionDelay: 250,
-});
+const lightbox = new SimpleLightbox('.gallery a');
 
 // declaration of variables and elements of DOM
 const pixabayAPI = new PixabayAPI();

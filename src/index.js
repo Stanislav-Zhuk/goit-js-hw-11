@@ -24,12 +24,12 @@ const loadMoreBtnEl = document.querySelector('.load-more');
 
 // add event listener
 formSearchEl.addEventListener('submit', onSearchFormSubmit);
-// loadMoreBtn.addEventListener('click', onLoadMoreBtnClick);
+loadMoreBtnEl.addEventListener('click', onLoadMoreBtnClick);
 
-// function to perform a search
+// function to perform a photo search
 async function onSearchFormSubmit(event) {
   event.preventDefault();
-  galleryListEl.innerHTML = '';
+  clearGallery();
 
   pixabayAPI.query = event.currentTarget.elements.searchQuery.value.trim();
   
@@ -48,8 +48,11 @@ async function onSearchFormSubmit(event) {
           'Sorry, there are no images matching your search query. Please try again.'
         );
       }
+
       Notify.success(`Hooray! We found ${totalItems} images.`);
+
       const markup = renderGallery(items);
+
       if (markup !== undefined) {
         galleryListEl.innerHTML = markup;
         lightbox.on('show.simplelightbox');
@@ -60,4 +63,39 @@ async function onSearchFormSubmit(event) {
   } catch {
     error => console.error(error);
   }
+};
+
+// function to upload more photos
+async function onLoadMoreBtnClick() {
+  pixabayAPI.page += 1;
+
+  try {
+    const photos = await pixabayAPI.searchPhotos().then(response => {
+      const items = response.data.hits;
+      const totalItems = response.data.totalHits;
+
+      if (totalItems <= pixabayAPI.page * pixabayAPI.per_page) {
+        loadMoreBtnEl.classList.add('is-hidden');
+        formSearchEl.reset();
+        Notify.failure(
+          "We're sorry, but you've reached the end of search results."
+        );
+        return;
+      }
+
+      const newMarkup = renderGallery(items);
+      galleryListEl.insertAdjacentHTML('beforeend', newMarkup);
+      lightbox.refresh();
+    });
+  } catch {
+    error => console.error(error);
+  }
+};
+
+// function to clear the gallery
+function clearGallery() {
+  pixabayAPI.page = 1;
+  galleryListEl.innerHTML = '';
+
+  loadMoreBtnEl.classList.remove('is-hidden');
 }

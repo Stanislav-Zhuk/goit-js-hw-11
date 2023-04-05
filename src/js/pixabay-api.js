@@ -9,7 +9,7 @@ export class PixabayAPI {
   per_page = 40;
 
   async searchPhotos() {
-    const data = await axios.get(`${this.#BASE_URL}`, {
+    const response = await axios.get(`${this.#BASE_URL}`, {
       params: {
         key: this.#API_KEY,
         q: this.query,
@@ -20,6 +20,7 @@ export class PixabayAPI {
         safesearch: true,
       },
     });
-    return data;
+    
+    return response.data;
   }
 }

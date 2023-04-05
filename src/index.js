@@ -97,5 +97,5 @@ function clearGallery() {
   pixabayAPI.page = 1;
   galleryListEl.innerHTML = '';
 
-  loadMoreBtnEl.classList.remove('is-hidden');
+  loadMoreBtnEl.classList.add('is-hidden');
 }

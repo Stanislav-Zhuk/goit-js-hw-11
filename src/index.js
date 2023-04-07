@@ -27,7 +27,7 @@ const loadMoreBtnEl = document.querySelector('.load-more');
 formSearchEl.addEventListener('submit', onSearchFormSubmit);
 loadMoreBtnEl.addEventListener('click', onLoadMoreBtnClick);
 
-// 
+// function to scroll to the beginning
 onScroll();
 onScrollToTop();
 

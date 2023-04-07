@@ -4,6 +4,7 @@ import "simplelightbox/dist/simple-lightbox.min.css";
 
 import { renderGallery } from './js/render-gallery';
 import { PixabayAPI } from './js/pixabay-api';
+import { onScroll, onScrollToTop } from './js/page-scrolling';
 
 // params library notiflix
 Notify.init({
@@ -25,6 +26,10 @@ const loadMoreBtnEl = document.querySelector('.load-more');
 // add event listener
 formSearchEl.addEventListener('submit', onSearchFormSubmit);
 loadMoreBtnEl.addEventListener('click', onLoadMoreBtnClick);
+
+// 
+onScroll();
+onScrollToTop();
 
 // function to perform a photo search
 function onSearchFormSubmit(event) {

@@ -1,7 +1,15 @@
-// function of creating a markup of a photo card
-
 export function renderGallery(elements) {
-  return elements.map(({ webformatURL, largeImageURL, tags, likes, views, comments, downloads }) => `
+	return elements
+		.map(
+			({
+				webformatURL,
+				largeImageURL,
+				tags,
+				likes,
+				views,
+				comments,
+				downloads,
+			}) => `
     <div class="photo-card">
       <a href="${largeImageURL}">
         <img class="photo-img" src="${webformatURL}" alt="${tags}" loading="lazy" />
@@ -13,5 +21,7 @@ export function renderGallery(elements) {
         <p class='info-item'><b>Downloads</b> ${downloads}</p>
       </div>
     </div>
-  `).join('');
+  `,
+		)
+		.join("");
 }
